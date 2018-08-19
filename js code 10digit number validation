@@ -1,0 +1,100 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm2.aspx.cs" Inherits="demo.WebForm2" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script>
+        function check() {
+
+            var pass1 = document.getElementById('mobile');
+
+
+            var message = document.getElementById('message');
+
+            var goodColor = "#0C6";
+            var badColor = "#FF9B37";
+
+            if (pass1.value.length != 10) {
+
+                mobile.style.backgroundColor = badColor;
+                message.style.color = badColor;
+                message.innerHTML = "required 10 digits, match requested format!"
+            }
+        }
+        
+        function Validateoooo() {
+            var mobile = document.getElementById("mobile").value;
+            var pattern = /^\d{10}$/;
+            if (pattern.test(mobile)) {
+                alert("Your mobile number : " + mobile);
+                return true;
+            }
+            alert("It is not valid mobile number.input 10 digits number!");
+            return false;
+        }
+
+        function Validate() {
+            var msg = "";
+            msg += MobileNumberValidation();
+            if (msg != "") {
+                alert(msg);
+                return false;
+            }
+            else {
+                alert("Mobile Number submited successfuly");
+                return true;
+            }
+        }
+        function MobileNumberValidation() {
+            var id;
+            var controlId = document.getElementById("<%=txtMobileNo.ClientID %>");
+    id = controlId.value;
+    var val;
+    val = /^[7-9]{1}[0-9]{9}$/;
+    if (id == "") {
+        return ("Please Enter Mobile Number" + "\n");
+    }
+    else if (val.test(id)) {
+        return "";
+    }
+    else {
+        return ("Mobile Number should be only in digits" + "\n");
+    }
+}
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:TextBox ID="TextBox1" runat="server" AutoPostBack="true" MaxLength="10" OnTextChanged="TextBox1_TextChanged" TextMode="Number"></asp:TextBox>
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="RegularExpressionValidator" ValidationExpression="^[\s\S]{0,10}$"></asp:RegularExpressionValidator>
+    </div>
+        <input name="mobile"  id="mobile" type="number" required onkeyup="return phonenumber();" ><span id="message"></span>
+        <asp:TextBox ID="txtMobileNo" runat="server" Onchange="javascript:return Validate();" OnTextChanged="TextBox1_TextChanged" AutoPostBack="true"></asp:TextBox>
+        <asp:Button ID="bttnsubmit" runat="server" Text="Submit" OnClientClick ="Validate();" Font-Bold="True" />
+        <br />
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="email" DataSourceID="SqlDataSource1">
+            <Columns>
+                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
+                <asp:BoundField DataField="email" HeaderText="email" ReadOnly="True" SortExpression="email" />
+                <asp:BoundField DataField="password" HeaderText="password" SortExpression="password" />
+            </Columns>
+        </asp:GridView>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:demo.Properties.Settings.Setting %>" DeleteCommand="DELETE FROM [Login] WHERE [email] = @email" InsertCommand="INSERT INTO [Login] ([email], [password]) VALUES (@email, @password)" SelectCommand="SELECT * FROM [Login]" UpdateCommand="UPDATE [Login] SET [password] = @password WHERE [email] = @email">
+            <DeleteParameters>
+                <asp:Parameter Name="email" Type="String" />
+            </DeleteParameters>
+            <InsertParameters>
+                <asp:Parameter Name="email" Type="String" />
+                <asp:Parameter Name="password" Type="String" />
+            </InsertParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="password" Type="String" />
+                <asp:Parameter Name="email" Type="String" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
+    </form>
+</body>
+</html>
