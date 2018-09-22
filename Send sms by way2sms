@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections.Generic;
+using System.Text;
+using System.Net;
+using System.IO;
+
+
+namespace demo
+{
+    public partial class WebForm5 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+                       //string URL = "https://smsapi.engineeringtgr.com/send/?Mobile=7837979550&Password=7837979550&Message=tehhhhhhxt&To=8382969303&Key=sandiIf3Eyv20AM6ogZ8RwHKX";
+
+
+            string Mobile = "7837979550";
+
+            string Password = "7837979550";
+
+            string Text = TextBox2.Text;
+
+            string No = TextBox1.Text;
+
+            string key = "sandiIf3Eyv20AM6ogZ8RwHKX";
+
+            string URL = "https://smsapi.engineeringtgr.com/send/?Mobile=" + Mobile + "&Password=" + Password + "&Key=" + key + "&Message=" + Text + "&To=" + No + "";
+
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+
+            request.Method = "GET";
+
+            request.ContentType = "application/json";
+
+            request.ContentLength = 0;
+
+            try
+
+            {
+
+                HttpWebResponse webResponse = (HttpWebResponse)request.GetResponse();
+
+                Stream webStream = webResponse.GetResponseStream();
+
+                StreamReader responseReader = new StreamReader(webStream);
+
+                string response = responseReader.ReadToEnd();
+
+                Console.Out.WriteLine(response);
+
+                responseReader.Close();
+
+                Label1.Text = "Sucessfully Done";
+
+            }
+
+            catch (Exception xe)
+
+            {
+
+            Console.Out.WriteLine(".....................");
+
+            Console.Out.WriteLine(xe.Message);
+
+            }
+
+
+       }
+    }
+}
