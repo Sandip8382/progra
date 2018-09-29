@@ -1,0 +1,70 @@
+using System;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Web.Services;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+
+namespace demo
+{
+    public partial class WebForm6 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+                           [System.Web.Script.Services.ScriptMethod()]
+                            [System.Web.Services.WebMethod]
+                            public static List<string> SearchCustomers(string prefixText, int count)
+                            {
+                        using (SqlConnection conn = new SqlConnection())
+                        {
+                            conn.ConnectionString = ConfigurationManager
+                                    .ConnectionStrings["demo.Properties.Settings.Setting"].ConnectionString;
+                            using (SqlCommand cmd = new SqlCommand())
+                            {
+                                cmd.CommandText = "select city_name from city where " +
+                                "city_name like @SearchText + '%'";
+                                cmd.Parameters.AddWithValue("@SearchText", prefixText);
+                                cmd.Connection = conn;
+                                conn.Open();
+                                List<string> customers = new List<string>();
+                                using (SqlDataReader sdr = cmd.ExecuteReader())
+                                {
+                                    while (sdr.Read())
+                                    {
+                                        customers.Add(sdr["city_name"].ToString());
+                                    }
+                                }
+                                conn.Close();
+                                return customers;
+                            }
+                        }
+                    }
+        
+    }
+}
+
+
+<form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <br />
+        <br />
+
+
+        <asp:TextBox ID="txtContactsSearch" runat="server"></asp:TextBox>
+        <ajaxToolkit:AutoCompleteExtender ID="TextBox1_AutoCompleteExtender" runat="server" BehaviorID="TextBox1_AutoCompleteExtender" ServiceMethod="SearchCustomers"
+    MinimumPrefixLength="1"
+    CompletionInterval="100" EnableCaching="false" CompletionSetCount="10"
+    TargetControlID="txtContactsSearch" FirstRowSelected = "false">
+        </ajaxToolkit:AutoCompleteExtender>
+
+    </form>
