@@ -1,0 +1,140 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm6.aspx.cs" Inherits="demo.WebForm6" %>
+
+
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <title></title>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+     <h3 style="color: #0000FF; font-style: italic">Display Image in GridView Using ASP.NET</h3>
+
+    <div>
+
+    <asp:FileUpload ID="fileupload" runat="server" />
+
+        <br />
+
+        <asp:Button ID="upload" runat="server" Font-Bold="true" Text="Upload" OnClick="upload_Click" />
+
+        <br />
+
+        <br />
+
+    </div>
+
+        <div>
+
+            <asp:GridView runat="server" ID="gdImage" HeaderStyle-BackColor="Tomato"  AutoGenerateColumns="false">
+
+                <Columns>
+
+                    <asp:BoundField DataField="ImageId" HeaderText="ImageId" />
+
+                    <asp:BoundField DataField="ImageName" HeaderText="ImageName" />
+
+                    <asp:ImageField DataImageUrlField="Image" HeaderText="Image"></asp:ImageField>                   
+
+                </Columns>
+
+            </asp:GridView>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>
+
+using System;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Web.Services;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.IO;
+
+namespace demo
+{
+    public partial class WebForm6 : System.Web.UI.Page
+    {
+        SqlConnection con;
+
+        SqlDataAdapter da;
+
+        DataSet ds;
+
+        SqlCommand cmd;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+
+
+        }
+
+        protected void upload_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+
+                string filename = Path.GetFileName(fileupload.PostedFile.FileName);
+
+                fileupload.SaveAs(Server.MapPath("~/Images/" + filename));
+
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["demo.Properties.Settings.Setting"].ConnectionString);
+
+                con.Open();
+
+                cmd = new SqlCommand("insert into Image_Details (ImageName,Image) values(@ImageName,@Image)", con);
+
+                cmd.Parameters.AddWithValue("@ImageName", filename);
+
+                cmd.Parameters.AddWithValue("@Image", "Images/" + filename);
+
+                cmd.ExecuteNonQuery();
+
+                da = new SqlDataAdapter("select * from Image_Details", con);
+
+                ds = new DataSet();
+
+                da.Fill(ds);
+
+                gdImage.DataSource = ds;
+
+                gdImage.DataBind();
+
+            }
+
+            catch (Exception ex)
+            {
+
+                upload.Text = ex.Message;
+
+            }
+
+        }
+    }
+
+}
+https://www.c-sharpcorner.com/UploadFile/5089e0/show-image-in-gridview-using-Asp-Net/
