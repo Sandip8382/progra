@@ -1,0 +1,19 @@
+Regex r = newRegex(@"[~`!@#$%^&*()-+=|\{}':;.,<>/?]");
+
+      if (r.IsMatch(txtJobPackName.Text))
+
+                {                
+
+ MessageBox.Show("special characters are not allowed !!!");
+
+                   TextBox1.Text ="";
+
+                }
+                
+                
+                
+                 string statas,regist;
+            string query;
+            string[] reg;
+            reg = txt_reg_no.Text.Split('/');
+            regist = reg[3];
