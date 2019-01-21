@@ -1,0 +1,179 @@
+private void Validity()
+        {
+            int sum, old_day, new_day, month, new_month, total_month;
+            int dt = Convert.ToDateTime(txt_date.Text).Year;
+            int dt_current = DateTime.Now.Year;
+            old_day = Convert.ToDateTime(txt_date.Text).Day;
+            month = Convert.ToDateTime(txt_date.Text).Month;
+            new_day = Convert.ToDateTime(DateTime.Today).Day;
+            new_month = Convert.ToDateTime(DateTime.Today).Month;
+            total_month = new_month - month;
+
+            if (total_month < 2 || total_month == -11)
+            {
+                if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+                {
+                    if (total_month == 0 || total_month == -11)
+                    {
+                        if (total_month == 0)
+                        {
+                            sum = new_day - old_day;
+                        }
+                        else
+                        {
+                            sum = (31 + new_day) - old_day;
+                        }
+                        if (sum < 15)
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Active";
+                            Label4.ForeColor = System.Drawing.Color.Green;
+
+
+                        }
+                        else
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Expired";
+                            Label4.ForeColor = System.Drawing.Color.Red;
+                            txt_sl_no.Text = generate_sl_no().ToString();
+                            Department();
+                          //  txt_reg_no.Text = DateTime.Now.ToString("MMM") + "/E/" + DateTime.Now.ToString("dd") + "/" + generate_reg_no().ToString();
+                            txt_consultant_charge.Text = "";
+                            txt_time.Text = DateTime.Now.ToString("hh : mm : ss");
+                            txt_date.Text = DateTime.Now.ToString("dd/MMM/yyyy");
+                            //if (dt != dt_current)
+                            //{
+                            //    txt_reg_no.Text = generate_reg_no().ToString() + "/" + DateTime.Now.ToString("yy");
+                            //    Label4.Text = "SL No Expired and Generate new Registration No.";
+                            //}
+                            //else
+                            //{
+                                
+                            //}
+
+                        }
+
+                    }
+                    else if (total_month == 1 || total_month == -11)
+                    {
+                        sum = (31 + new_day) - old_day;
+                        if (sum < 15)
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Active";
+                            Label4.ForeColor = System.Drawing.Color.Green;
+
+                        }
+                        else
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Expired";
+                            txt_sl_no.Text = generate_sl_no().ToString();
+                            Label4.ForeColor = System.Drawing.Color.Red;
+                            Department();
+                           // txt_reg_no.Text = DateTime.Now.ToString("MMM") + "/E/" + DateTime.Now.ToString("dd") + "/" + generate_reg_no().ToString();
+                            txt_time.Text = DateTime.Now.ToString("hh : mm : ss");
+                            txt_date.Text = DateTime.Now.ToString("dd/MMM/yyyy");
+                            txt_consultant_charge.Text = "";
+                            //if (dt != dt_current)
+                            //{
+                            //    txt_reg_no.Text = generate_reg_no().ToString() + "/" + DateTime.Now.ToString("yy");
+                            //    Label4.Text = "SL No Expired and Generate new Registration No.";
+                            //}
+                            //else
+                            //{
+                            //    Label4.Text = "SL No Expired";
+                            //}
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    if (total_month == 0 || total_month == -11)
+                    {
+                        sum = new_day - old_day;
+                        if (sum < 15)
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Active";
+                            Label4.ForeColor = System.Drawing.Color.Green;
+
+
+                        }
+                        else
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Expired.";
+                            txt_sl_no.Text = generate_sl_no().ToString();
+                            Label4.ForeColor = System.Drawing.Color.Red;
+                            Department();
+
+                            //txt_reg_no.Text = DateTime.Now.ToString("MMM") + "/E/" + DateTime.Now.ToString("dd") + "/" + generate_reg_no().ToString();
+                            txt_time.Text = DateTime.Now.ToString("hh : mm : ss");
+                            txt_date.Text = DateTime.Now.ToString("dd/MMM/yyyy");
+                            txt_consultant_charge.Text = "";
+                            //if (dt != dt_current)
+                            //{
+                            //    txt_reg_no.Text = generate_reg_no().ToString() + "/" + DateTime.Now.ToString("yy");
+
+                            //}
+                        }
+
+                    }
+                    else if (total_month == 1 || total_month == -11)
+                    {
+                        sum = (30 + new_day) - old_day;
+                        if (sum < 15)
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Active";
+                            Label4.ForeColor = System.Drawing.Color.Green;
+
+                        }
+                        else
+                        {
+                            Label4.Visible = true;
+                            Label4.Text = "SL No Expired";
+                            txt_sl_no.Text = generate_sl_no().ToString();
+                            Label4.ForeColor = System.Drawing.Color.Red;
+                            Department();
+
+                           // txt_reg_no.Text = DateTime.Now.ToString("MMM") + "/E/" + DateTime.Now.ToString("dd") + "/" + generate_reg_no().ToString();
+                            txt_time.Text = DateTime.Now.ToString("hh : mm : ss");
+                            txt_date.Text = DateTime.Now.ToString("dd/MMM/yyyy");
+                            //if (dt != dt_current)
+                            //{
+                            //    txt_reg_no.Text = generate_reg_no().ToString() + "/" + DateTime.Now.ToString("yy");
+
+                            //}
+                        }
+
+                    }
+
+                }
+
+            }
+            else
+            {
+                Label4.Visible = true;
+                Label4.Text = "SL No Expired.";
+                txt_sl_no.Text = generate_sl_no().ToString();
+                Label4.ForeColor = System.Drawing.Color.Red;
+                Department();
+                // txt_reg_no.Text = DateTime.Now.ToString("MMM") + "/E/" + DateTime.Now.ToString("dd") + "/" + generate_reg_no().ToString();
+                txt_time.Text = DateTime.Now.ToString("hh : mm : ss");
+                txt_date.Text = DateTime.Now.ToString("dd/MMM/yyyy");
+                txt_consultant_charge.Text = "";
+                //if (dt != dt_current)
+                //{
+                //    txt_reg_no.Text = generate_reg_no().ToString() + "/" + DateTime.Now.ToString("yy");
+
+                //}
+
+            }
+
+        }
