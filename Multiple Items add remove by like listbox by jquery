@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Select2 Example with JSON Array</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+    <script src="https://cdn.bootcss.com/select2/3.4.5/select2.min.js"></script>
+    <link href="https://cdn.bootcss.com/select2/3.4.5/select2.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <input type="text" id='Books' value="" style="width:300px;" />
+    
+    <input type="button" id="bt" value="Submit" style="margin-left:10px;" />
+    <p>
+        <label id="lbl"></label>
+    </p>
+</body>
+
+<script>
+    $(document).ready(function () {
+        var empArray =
+            [{ id: '001', text: 'Alpha' },
+                { id: '002', text: 'Bravo' },
+                { id: '003', text: 'Charlie' },
+                { id: '004', text: 'Delta' },
+                { id: '005', text: 'Echo'}];
+
+        $("#Books").select2({
+            data: empArray,
+            multiple: true,
+            placeholder: 'Select one or more values from the list'
+        });
+
+        // SHOW SELECTED VALUES.
+        $('#bt').click(function () {
+            $('#lbl').empty();
+            $('#lbl').append("You have selected: <br />");
+            var iCnt = 0;
+            var data = $('#Books').select2('data');
+            
+            $.each(data, function () {
+                var empName = $('#Books').select2('data')[iCnt]['text'] + '<br />';
+                $('#lbl').append(empName);iCnt += 1;
+            });
+        });
+    });
+</script>
+</html>
