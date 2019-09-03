@@ -1,0 +1,46 @@
+//C# code
+
+ protected void Page_Load(object sender, EventArgs e)
+        {
+
+            if (!Page.IsPostBack)
+            {
+                Session["time"] = DateTime.Now.AddMinutes(2).ToString();
+            }
+          }
+
+
+
+
+        protected void timer_Tick1(object sender, EventArgs e)
+        {
+            if (DateTime.Compare(DateTime.Now, DateTime.Parse(Session["time"].ToString())) < 0)
+            {
+                lblTime.Text = "Time Left : " + ((Int32)DateTime.Parse(Session["time"].ToString()).Subtract(DateTime.Now).TotalMinutes)
+               .ToString() + "Minuts :" + ((Int32)DateTime.Parse(Session["time"].ToString()).Subtract(DateTime.Now).TotalSeconds%60).ToString() + "Seconds";
+
+            }
+            else
+            {
+                lblTime.Text = "Expired";
+            }
+        }
+        
+        ////Source Code
+        <form runat="server">
+     <div>
+   <asp:ScriptManager ID="ScriptManager1" runat="server" />
+          <asp:Timer ID="timer" runat="server" Interval="1000" OnTick="timer_Tick1">
+            </asp:Timer>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Label ID="lblTime" runat="server" />
+           
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="timer" EventName="tick" />
+        </Triggers>
+    </asp:UpdatePanel>
+ </div>
+
+</form>
