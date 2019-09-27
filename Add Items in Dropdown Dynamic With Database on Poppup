@@ -1,0 +1,62 @@
+ <asp:DropDownList runat="server" ID="ddl_course" CssClass="form-control" OnSelectedIndexChanged="ddl_course_SelectedIndexChanged" style="border:1px solid" AutoPostBack="true">
+                            <asp:ListItem>--select--</asp:ListItem>
+                     </asp:DropDownList>
+ 
+ 
+ protected void ddl_course_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddl_course.SelectedIndex == 1)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('.bs-example-modal-sm').modal('show')", true);
+            }
+        }
+
+        protected void btn_add_Click(object sender, EventArgs e)
+        {
+            save();
+        }
+        private void save()
+        {
+            con.Open();
+            try
+            {
+                string query = "insert into Add_Notification (Notification_Type,DT) values('" + txt_noti.Text + "','" + DateTime.Now.ToString() + "')";
+                SqlCommand cmd = new SqlCommand(query, con);
+                int n = cmd.ExecuteNonQuery();
+                if (n > 0)
+                {
+                    LblMsg.Text = "Notification Type Add Successfull";
+                    LblMsg.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    LblMsg.Text = "Notification Type Failed";
+                    LblMsg.ForeColor = System.Drawing.Color.Red;
+                }
+            }
+            catch (Exception ee)
+            {
+                Response.Write(ee.Message);
+            }
+            finally
+            {
+                con.Close();
+                gridview();
+            }
+        }
+        private void gridview()
+        {
+            con.Open();
+            SqlDataAdapter Sqa = new SqlDataAdapter("select * from Add_Notification", con);
+            DataSet ds = new DataSet();
+            Sqa.Fill(ds);
+            ddl_course.DataSource = ds;
+            ddl_course.DataTextField = "Notification_Type";
+            ddl_course.DataValueField = "Record_Id";
+            ddl_course.DataBind();
+            con.Close();
+            ddl_course.Items.Insert(0, new ListItem("--selet--", "0"));
+            ddl_course.Items.Insert(1, new ListItem("Add New Items", "1"));
+        }
+    }
+}
