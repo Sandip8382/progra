@@ -1,0 +1,3 @@
+
+
+SELECT COALESCE(MAX(Registration_Id+1), 0) from Stu_Registration
