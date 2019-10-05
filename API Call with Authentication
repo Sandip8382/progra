@@ -2,7 +2,7 @@ void Main()
         {
             WebRequest req = WebRequest.Create(@"https://api-test.hotelspro.com/api/v2/search/?currency=AED&client_nationality=cn&pax=2&pax=1,4,7&pax=2,6&checkin=2019-12-25&checkout=2019-12-26&destination_code=19064");
             req.Method = "GET";
-            req.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes("TravellersChoiceTravel:7fAcgUfHtM9YStaN"));
+            req.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes("username:password"));
             //req.Credentials = new NetworkCredential("username", "password");
             HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
             Stream receiveStream = resp.GetResponseStream();
