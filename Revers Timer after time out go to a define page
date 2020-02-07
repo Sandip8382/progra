@@ -59,7 +59,7 @@
 </style>
 
 
-
+ <h4> Payment session expire in&nbsp;<span id="secondsIdle"></span>&nbsp;seconds.</h4>
 
  <asp:LinkButton ID="lnkFake" runat="server" />
 <ajaxToolkit:ModalPopupExtender ID="mpeTimeout" BehaviorID ="mpeTimeout" runat="server" PopupControlID="pnlPopup" TargetControlID="lnkFake"
@@ -106,3 +106,14 @@
             }
 </script>
 
+C#--
+
+if (!this.IsPostBack)
+            {
+                Session["Reset"] = true;
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("~/Web.Config");
+                SessionStateSection section = (SessionStateSection)config.GetSection("system.web/sessionState");
+                int timeout = (int)section.Timeout.TotalMinutes * 1000 * 27; //27= 9 minutes
+                //int timeout = (int)section.Timeout.TotalMinutes * 1 * 1; //27= 9 minutes
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "SessionAlert", "SessionExpireAlert(" + timeout + ");", true);
+            }
