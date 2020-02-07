@@ -1,0 +1,44 @@
+<div class="row">
+            <div class="col-md-12">
+          <asp:Timer ID="timer" runat="server" Interval="1000" OnTick="timer_Tick1">
+            </asp:Timer>
+    <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" Style="text-align:center;">
+        <ContentTemplate>
+            <asp:Label ID="lblTime" Font-Bold="true" ForeColor="Red" Font-Size="X-Large"  runat="server" />
+           
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="timer" EventName="tick" />
+        </Triggers>
+    </asp:UpdatePanel>
+                </div>
+              </div>
+              
+              
+              C#----
+        protected void timer_Tick1(object sender, EventArgs e)
+        {
+            if (timeer == 0)
+            {
+                if (DateTime.Compare(DateTime.Now, DateTime.Parse(Session["time"].ToString())) < 0)
+                {
+                    lblTime.Text = " Time Left : " + ((Int32)DateTime.Parse(Session["time"].ToString()).Subtract(DateTime.Now).TotalMinutes)
+                   .ToString() + " Minuts : " + ((Int32)DateTime.Parse(Session["time"].ToString()).Subtract(DateTime.Now).TotalSeconds % 60).ToString() + " Seconds ";
+                }
+                else
+                {
+                    lblTime.Text = "Opps ! Time Out";
+                    status = "TimeOut";
+                    System.Threading.Thread.Sleep(1000);
+                    if (count_time == 1)
+                    {
+                        count_time = 0;
+                        Response.Redirect("Child_Profile.aspx");
+                    }
+                    else
+                    {
+                        Save_For_TIMER();
+                    }
+                }
+            }
+        }
