@@ -1,0 +1,2 @@
+ScriptManager.RegisterStartupScript(this, this.GetType(),"alert","alert('User details saved sucessfully');window.location ='frmDisplayUsers.aspx';",true);
+       
